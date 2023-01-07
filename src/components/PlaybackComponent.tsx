@@ -11,7 +11,20 @@ export class PlaybackComponent extends React.Component<PlaybackComponentProps>{
 
 
     render(): React.ReactNode {
-        return (<div>Currently Playing</div>)
+        return (<div>
+            <div>Currently Playing</div>
+            <div>YOUTUBE VIDEO</div>
+            <div>
+                <button>SkipBack</button>
+                <button>Play</button>
+                <button>Pause</button>
+                <button>SkipForward</button>
+            </div>
+            <div>
+            <input type="checkbox"></input>
+            <label>Autoplay</label>
+            </div>
+            </div>)
     }
 
     

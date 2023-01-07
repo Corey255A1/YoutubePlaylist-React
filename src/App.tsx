@@ -15,7 +15,20 @@ export class App extends React.Component<any, AppState>{
   constructor(props:any){
     super(props);
     this.state = {
-      playlist:new Array<PlaylistItem>(),
+      playlist:[
+        {
+          url:"youtube.com/a",
+          id:1
+        },
+        {
+          url:"youtube.com/b",
+          id:2
+        },
+        {
+          url:"youtube.com/c",
+          id:3
+        }
+      ],
       currentPlaybackItem:null,
       currentPlayListIndex:-1
     }
@@ -23,11 +36,13 @@ export class App extends React.Component<any, AppState>{
   render(): React.ReactNode {
     return (
       <div className="App">
-        <header className="App-header">
-          Youtube Playlist
-        </header>
+        <div style={{width:"50%"}}>
         <PlaybackComponent playlistItem={this.state.currentPlaybackItem}></PlaybackComponent>
+        </div>
+        <div style={{width:"50%"}}>
         <PlaylistComponent playlist={this.state.playlist} currentPlayListIndex={this.state.currentPlayListIndex}></PlaylistComponent>
+        </div>
+        
       </div>
     );
   }
