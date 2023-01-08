@@ -46,16 +46,38 @@ export class App extends React.Component<any, AppState>{
     }
   }
 
-  onMoveItem(item:PlaylistItem, direction:number){
-    console.log(direction);
+  onMoveItem(item: PlaylistItem, direction: number) {
+    const itemIndex = this.state.playlist.indexOf(item);
+    let nextItemIndex = itemIndex+direction;
+    if(nextItemIndex<0){
+      nextItemIndex = 0
+    }
+    else if(nextItemIndex>=this.state.playlist.length){
+      nextItemIndex = this.state.playlist.length - 1;
+    }
+    const modifiedList = [...this.state.playlist];
+    modifiedList.splice(itemIndex, 1);
+    modifiedList.splice(nextItemIndex, 0, item)
+    this.setState({playlist:modifiedList});
   }
 
-  onPlayItem(item:PlaylistItem){
+  onPlayItem(item: PlaylistItem) {
     console.log(item);
   }
 
-  onRemoveItem(itemToRemove:PlaylistItem){
-    this.setState({playlist:this.state.playlist.filter((item)=>item!=itemToRemove)})
+  onRemoveItem(itemToRemove: PlaylistItem) {
+    this.setState({ playlist: this.state.playlist.filter((item) => item != itemToRemove) })
+  }
+
+  onItemURLChanged(url: string, itemModified: PlaylistItem) {
+    this.setState({
+      playlist: this.state.playlist.map(item => {
+        if (item == itemModified) {
+          item.url = url;
+        }
+        return item;
+      })
+    })
   }
 
   render(): React.ReactNode {
@@ -65,13 +87,14 @@ export class App extends React.Component<any, AppState>{
           <PlaybackComponent playlistItem={this.state.currentPlaybackItem}></PlaybackComponent>
         </div>
         <div style={{ width: "50%" }}>
-          <PlaylistComponent 
-            playlist={this.state.playlist} 
+          <PlaylistComponent
+            playlist={this.state.playlist}
             onAddItem={this.onAddItem.bind(this)}
             onMoveItem={this.onMoveItem.bind(this)}
             onPlayItem={this.onPlayItem.bind(this)}
             onRemoveItem={this.onRemoveItem.bind(this)}
-            ></PlaylistComponent>
+            onItemURLChanged={this.onItemURLChanged.bind(this)}
+          ></PlaylistComponent>
         </div>
 
       </div>

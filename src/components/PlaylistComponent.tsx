@@ -3,12 +3,14 @@ import { Playlist } from "../data/Playlist";
 import { PlaylistItem } from "../data/PlaylistItem";
 import { PlaylistItemComponent } from "./PlaylistItemComponent";
 import "./PlaylistComponent.css";
+import { stringify } from "querystring";
 export interface PlaylistComponentProps{
     playlist:Array<PlaylistItem>;
     onMoveItem:(item:PlaylistItem, direction:number)=>void;
     onAddItem:(addToBottom:boolean)=>void;
     onRemoveItem:(item:PlaylistItem)=>void;
     onPlayItem:(item:PlaylistItem)=>void;
+    onItemURLChanged:(url:string, item:PlaylistItem)=>void;
 
 }
 export class PlaylistComponent extends React.Component<PlaylistComponentProps>{
@@ -31,6 +33,10 @@ export class PlaylistComponent extends React.Component<PlaylistComponentProps>{
     onAddItem(addToBottom:boolean){
         this.props.onAddItem(addToBottom);
     }
+    onItemURLChanged(url:string, item:PlaylistItem)
+    {
+        this.props.onItemURLChanged(url, item);
+    }
 
     render(): React.ReactNode {
         return (
@@ -44,7 +50,8 @@ export class PlaylistComponent extends React.Component<PlaylistComponentProps>{
                     playlistItem={item}
                     onMove={(direction:number)=>this.onMoveItem(item,direction)}
                     onRemove={()=>this.onRemoveItem(item)}
-                    onPlay={()=>this.onPlayItem(item)}/>
+                    onPlay={()=>this.onPlayItem(item)}
+                    onURLChanged={(url:string)=>this.onItemURLChanged(url, item)}/>
             })}   
             </ul>
             </div>
