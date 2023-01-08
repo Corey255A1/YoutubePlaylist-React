@@ -1,3 +1,5 @@
+// Corey Wunderlich 2023
+// www.wundervisionenvisionthefuture.com
 export class PlaylistItem{
     public id:number;
     public url:string;

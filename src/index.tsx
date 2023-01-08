@@ -1,3 +1,5 @@
+// Corey Wunderlich 2023
+// www.wundervisionenvisionthefuture.com
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';

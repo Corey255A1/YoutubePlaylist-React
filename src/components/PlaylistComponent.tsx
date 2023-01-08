@@ -1,3 +1,5 @@
+// Corey Wunderlich 2023
+// www.wundervisionenvisionthefuture.com
 import React from "react";
 import { Playlist } from "../data/Playlist";
 import { PlaylistItem } from "../data/PlaylistItem";
