@@ -72,6 +72,7 @@ export class App extends React.Component<any, AppState>{
   }
 
   onItemURLChanged(url: string, itemModified: PlaylistItem) {
+    console.log("changed")
     this.setState({
       playlist: this.state.playlist.map(item => {
         if (item == itemModified) {
@@ -83,6 +84,7 @@ export class App extends React.Component<any, AppState>{
   }
 
   render(): React.ReactNode {
+    console.log("APP")
     return (
       <div className="App">
         <div style={{ width: "50%" }}>
