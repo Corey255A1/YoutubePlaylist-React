@@ -13,17 +13,17 @@ namespace YT {
     };
 }
 
-export interface MediaPlayer{
-    play:()=>void;
-    pause:()=>void;
-    loadVideoById:(videoId:string, startSeconds:number)=>void;
+export interface MediaPlayer {
+    play: () => void;
+    pause: () => void;
+    loadVideoById: (videoId: string, startSeconds: number) => void;
 }
 
 export interface YoutubePlayerProps {
     setMediaPlayer: (controller: MediaPlayer) => void;
 }
 
-export class YoutubePlayer extends React.Component<YoutubePlayerProps> implements MediaPlayer{
+export class YoutubePlayer extends React.Component<YoutubePlayerProps> implements MediaPlayer {
     private _width: number;
     private _height: number;
     private _id: string;
@@ -33,16 +33,13 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
     private static pendingYoutubeCallbacks: Array<() => void> = [];
 
     constructor(props: YoutubePlayerProps) {
-
         super(props);
         this._width = 320;
         this._height = 320;
-        this._id = "youtube-test";
+        this._id = "youtube-iframe-" + Math.floor(Math.random() * 1000000);
         this._player = null;
         this._playerController = null;
         this.props.setMediaPlayer(this);
-
-
     }
 
     private static youTubeIframeAPIReady() {
@@ -75,8 +72,7 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
         console.log("STATE");
         console.log(event);
     }
-    private loadVideo() {
-        console.log("Load");
+    private initializePlayer() {
         this._player = new window.YT.Player(this._id, {
             events: {
                 'onReady': this.onPlayerReady.bind(this),
@@ -85,24 +81,22 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
         });
     }
 
-    public play(){
+    public play() {
         this._playerController?.playVideo();
     }
 
-    public pause(){
+    public pause() {
         this._playerController?.pauseVideo();
     }
 
-    public loadVideoById(id:string, startSeconds:number){
-        this._playerController?.loadVideoById(id, startSeconds);
+    public loadVideoById(videoId: string, startSeconds: number) {
+        this._playerController?.loadVideoById(videoId, startSeconds);
     }
 
     componentDidMount() {
         console.log(this._id);
         if (window.YT === undefined) {
-            YoutubePlayer.initializeYoutube(this.loadVideo.bind(this));
-        } else {
-            this.loadVideo();
+            YoutubePlayer.initializeYoutube(this.initializePlayer.bind(this));
         }
     }
 
@@ -112,7 +106,7 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
             <iframe
                 width={this._width}
                 height={this._height}
-                src="http://www.youtube.com/embed/B-w86z_gbP8?enablejsapi=1&mute=1"
+                src="http://www.youtube.com/embed?enablejsapi=1&mute=1"
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
