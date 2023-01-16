@@ -19,18 +19,27 @@ export interface MediaPlayer {
     loadVideoById: (videoId: string, startSeconds: number) => void;
 }
 
-export interface YoutubePlayerProps {
-    setMediaPlayer: (controller: MediaPlayer) => void;
+export interface MediaPlayerInfo {
+    readonly playState:number;
+    readonly videoTitle:string
 }
 
-export class YoutubePlayer extends React.Component<YoutubePlayerProps> implements MediaPlayer {
+export interface YoutubePlayerProps {
+    setMediaPlayer: (controller: MediaPlayer) => void;
+    onMediaPlayerStateChange:(info: MediaPlayerInfo)=>void;
+}
+
+export class YoutubePlayer extends React.Component<YoutubePlayerProps> implements MediaPlayer,MediaPlayerInfo {
+    private static waitingForIframeAPIReady: boolean = false;
+    private static pendingYoutubeCallbacks: Array<() => void> = [];
+
     private _width: number;
     private _height: number;
     private _id: string;
     private _player: YT.Player | null;
     private _playerController: any | null
-    private static isInitializeYoutubeCalled: boolean = false;
-    private static pendingYoutubeCallbacks: Array<() => void> = [];
+    private _playState:number;
+    private _videoTitle:string;
 
     constructor(props: YoutubePlayerProps) {
         super(props);
@@ -39,6 +48,8 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
         this._id = "youtube-iframe-" + Math.floor(Math.random() * 1000000);
         this._player = null;
         this._playerController = null;
+        this._playState = -1;
+        this._videoTitle = "";
         this.props.setMediaPlayer(this);
     }
 
@@ -50,8 +61,8 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
     }
 
     private static initializeYoutube(apiReadyCallback: () => void) {
-        if (!YoutubePlayer.isInitializeYoutubeCalled) {
-            YoutubePlayer.isInitializeYoutubeCalled = true;
+        if (!YoutubePlayer.waitingForIframeAPIReady) {
+            YoutubePlayer.waitingForIframeAPIReady = true;
             const tag = document.createElement('script');
             tag.src = 'https://www.youtube.com/iframe_api';
 
@@ -63,6 +74,14 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
         }
         YoutubePlayer.pendingYoutubeCallbacks.push(apiReadyCallback);
     }
+
+    public get playState(){
+        return this._playState;
+    }
+    public get videoTitle(){
+        return this._videoTitle;
+    }
+
     private onPlayerReady(event: any) {
         console.log("READY!");
         console.log(event);
@@ -71,6 +90,9 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
     private onPlayerStateChange(event: any) {
         console.log("STATE");
         console.log(event);
+        this._videoTitle = event.target.videoTitle;
+        this._playState = event.data;
+        this.props.onMediaPlayerStateChange(this);
     }
     private initializePlayer() {
         this._player = new window.YT.Player(this._id, {
@@ -97,6 +119,8 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
         console.log(this._id);
         if (window.YT === undefined) {
             YoutubePlayer.initializeYoutube(this.initializePlayer.bind(this));
+        }else{
+            this.initializePlayer();
         }
     }
 
