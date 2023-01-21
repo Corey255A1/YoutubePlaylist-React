@@ -8,6 +8,7 @@ import "./PlaylistComponent.css";
 import { stringify } from "querystring";
 export interface PlaylistComponentProps{
     playlist:Array<PlaylistItem>;
+    activeItem:PlaylistItem | null;
     onMoveItem:(item:PlaylistItem, direction:number)=>void;
     onAddItem:(addToBottom:boolean)=>void;
     onRemoveItem:(item:PlaylistItem)=>void;
@@ -48,6 +49,7 @@ export class PlaylistComponent extends React.Component<PlaylistComponentProps>{
             <ul>
             {this.props.playlist.map(item=>{
                 return <PlaylistItemComponent
+                    isActive={this.props.activeItem == item}
                     key={item.id} 
                     playlistItem={item}
                     onMove={(direction:number)=>this.onMoveItem(item,direction)}

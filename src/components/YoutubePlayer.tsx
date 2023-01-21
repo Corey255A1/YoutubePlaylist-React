@@ -7,10 +7,19 @@ declare global {
         onYouTubeIframeAPIReady: () => void
     }
 }
-namespace YT {
+export namespace YT {
     export interface Player {
         playVideo: () => void;
     };
+
+    export enum PlayerState {
+        Uninitialized = -1,
+        Ended = 0,
+        Playing = 1,
+        Paused = 2,
+        Buffering = 3,
+        Cued = 5
+    }
 }
 
 export interface MediaPlayer {
@@ -20,16 +29,17 @@ export interface MediaPlayer {
 }
 
 export interface MediaPlayerInfo {
-    readonly playState:number;
-    readonly videoTitle:string
+    readonly playState: number;
+    readonly videoTitle: string
 }
 
 export interface YoutubePlayerProps {
+    url: string | undefined;
     setMediaPlayer: (controller: MediaPlayer) => void;
-    onMediaPlayerStateChange:(info: MediaPlayerInfo)=>void;
+    onMediaPlayerStateChange: (info: MediaPlayerInfo) => void;
 }
 
-export class YoutubePlayer extends React.Component<YoutubePlayerProps> implements MediaPlayer,MediaPlayerInfo {
+export class YoutubePlayer extends React.Component<YoutubePlayerProps> implements MediaPlayer, MediaPlayerInfo {
     private static waitingForIframeAPIReady: boolean = false;
     private static pendingYoutubeCallbacks: Array<() => void> = [];
 
@@ -38,8 +48,8 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
     private _id: string;
     private _player: YT.Player | null;
     private _playerController: any | null
-    private _playState:number;
-    private _videoTitle:string;
+    private _playState: number;
+    private _videoTitle: string;
 
     constructor(props: YoutubePlayerProps) {
         super(props);
@@ -51,6 +61,7 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
         this._playState = -1;
         this._videoTitle = "";
         this.props.setMediaPlayer(this);
+        console.log("constructor");
     }
 
     private static youTubeIframeAPIReady() {
@@ -75,10 +86,10 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
         YoutubePlayer.pendingYoutubeCallbacks.push(apiReadyCallback);
     }
 
-    public get playState(){
+    public get playState() {
         return this._playState;
     }
-    public get videoTitle(){
+    public get videoTitle() {
         return this._videoTitle;
     }
 
@@ -119,8 +130,16 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
         console.log(this._id);
         if (window.YT === undefined) {
             YoutubePlayer.initializeYoutube(this.initializePlayer.bind(this));
-        }else{
+        } else {
             this.initializePlayer();
+        }
+    }
+
+    componentDidUpdate(prevProps: Readonly<YoutubePlayerProps>, prevState: Readonly<{}>, snapshot?: any): void {
+        if (this.props.url != undefined && prevProps.url != this.props.url) {
+            this.loadVideoById(this.props.url, 0);
+        } else if (this.props.url == undefined) {
+            this._playerController?.stopVideo();
         }
     }
 
