@@ -2,6 +2,7 @@
 // www.wundervisionenvisionthefuture.com
 import React from "react";
 import { PlaylistItem } from "../data/PlaylistItem";
+import "./PlaylistItemComponent.css";
 
 export interface PlaylistItemComponentProps {
     playlistItem: PlaylistItem;
@@ -26,12 +27,12 @@ export class PlaylistItemComponent extends React.Component<PlaylistItemComponent
 
     render(): React.ReactNode {
         return (
-            <li style={this.props.isActive ? { backgroundColor: "red" } : {}}>
-                <button onClick={() => { this.props.onMove(-1) }}>Up</button>
-                <button onClick={() => { this.props.onMove(1) }}>Down</button>
-                <button onClick={() => { this.props.onPlay() }}>Play</button>
+            <li className={this.props.isActive ? "playlist-item active" : "playlist-item"}>
+                <button className="item-action up" onClick={() => { this.props.onMove(-1) }}></button>
+                <button className="item-action down" onClick={() => { this.props.onMove(1) }}></button>
+                <button className="item-action play" onClick={() => { this.props.onPlay() }}></button>
                 <input type="text" onChange={this.onURLChanged.bind(this)} value={this.props.playlistItem.url}></input>
-                <button onClick={() => { this.props.onRemove() }}>X</button>
+                <button className="item-action close" onClick={() => { this.props.onRemove() }}></button>
             </li>
         )
     }

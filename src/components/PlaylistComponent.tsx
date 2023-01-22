@@ -21,22 +21,22 @@ export class PlaylistComponent extends React.Component<PlaylistComponentProps>{
         super(props);
     }
 
-    onMoveItem(item:PlaylistItem, direction:number){
+    moveItem(item:PlaylistItem, direction:number){
         this.props.onMoveItem(item, direction);
     }
 
-    onRemoveItem(item:PlaylistItem){
+    removeItem(item:PlaylistItem){
         this.props.onRemoveItem(item);
     }
 
-    onPlayItem(item:PlaylistItem){
+    playItem(item:PlaylistItem){
         this.props.onPlayItem(item);
     }
 
-    onAddItem(addToBottom:boolean){
+    addItem(addToBottom:boolean){
         this.props.onAddItem(addToBottom);
     }
-    onItemURLChanged(url:string, item:PlaylistItem)
+    urlChangedHandler(url:string, item:PlaylistItem)
     {
         this.props.onItemURLChanged(url, item);
     }
@@ -44,18 +44,18 @@ export class PlaylistComponent extends React.Component<PlaylistComponentProps>{
     render(): React.ReactNode {
         return (
             <div>
-                <button onClick={()=>{this.onAddItem(false)}}>+ Add To Top</button>
-                <button onClick={()=>{this.onAddItem(true)}}>+ Add To Bottom</button>
+                <button className="add-item" onClick={()=>{this.addItem(false)}}>Add To Top</button>
+                <button className="add-item" onClick={()=>{this.addItem(true)}}>Add To Bottom</button>
             <ul>
             {this.props.playlist.map(item=>{
                 return <PlaylistItemComponent
                     isActive={this.props.activeItem == item}
                     key={item.id} 
                     playlistItem={item}
-                    onMove={(direction:number)=>this.onMoveItem(item,direction)}
-                    onRemove={()=>this.onRemoveItem(item)}
-                    onPlay={()=>this.onPlayItem(item)}
-                    onURLChanged={(url:string)=>this.onItemURLChanged(url, item)}/>
+                    onMove={(direction:number)=>this.moveItem(item,direction)}
+                    onRemove={()=>this.removeItem(item)}
+                    onPlay={()=>this.playItem(item)}
+                    onURLChanged={(url:string)=>this.urlChangedHandler(url, item)}/>
             })}   
             </ul>
             </div>

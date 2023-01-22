@@ -1,0 +1,72 @@
+
+.playlist-item{
+    background-color: #221199;
+    padding: 4px;
+    margin: 4px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px 1px black;
+}
+
+.playlist-item.active{
+    background-color: #119922;
+}
+
+.playlist-item > input{
+    height: 28px;
+    margin: 2px;
+    border: none;
+    outline: none;
+}
+
+button.item-action{
+    width: 28px;
+    background-color: #DDDD11;
+}
+button.item-action:hover{
+    width: 28px;
+    background-color: #EEEE11;
+}
+
+button.item-action:active{
+    box-shadow: 0px 0px 0px 1px white
+}
+
+.item-action.close{
+    padding: 4px;
+    background-color: #AA2222;
+    color: white;
+    font-size: bold;
+}
+
+.item-action.close:hover{
+    width: 28px;
+    padding: 4px;
+    background-color: #DD2222;
+    color: white;
+    font-size: bold;
+}
+
+button.item-action.close::after{
+    content: "X";
+}
+
+button.item-action.up::after{
+    content: "⮝";
+}
+
+button.item-action.down::after{
+    content: "⮟";
+}
+
+button.item-action.play{
+    background-color: #119922;
+    color: white;
+}
+button.item-action.play:hover{
+    background-color: #11DD22;
+    color: white;
+}
+
+button.item-action.play:after{
+    content: "▶";
+}

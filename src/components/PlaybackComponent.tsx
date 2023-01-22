@@ -3,7 +3,7 @@
 import React from "react";
 import { PlaylistItem } from "../data/PlaylistItem";
 import { MediaPlayer, MediaPlayerInfo, YoutubePlayer, YT } from "./YoutubePlayer";
-
+import "./PlaybackComponent.css";
 
 export enum PlaybackControllerEvent {
     Paused = 0,
@@ -55,6 +55,8 @@ export class PlaybackComponent extends React.Component<PlaybackComponentProps, P
                 <div>{this.state.videoTitle}</div>
                 <div>
                     <YoutubePlayer
+                        width={320}
+                        height={320}
                         url={this.props.url}
                         setMediaPlayer={this.setMediaPlayer.bind(this)}
                         onMediaPlayerStateChange={this.mediaPlayerStateChangeHandler.bind(this)}
@@ -63,7 +65,7 @@ export class PlaybackComponent extends React.Component<PlaybackComponentProps, P
                 <div>
                     <button onClick={() => { this.props.onPlaybackEvent(PlaybackControllerEvent.Previous); }}>Previous</button>
                     <button onClick={() => { this._mediaPlayer?.play(); }}>Play</button>
-                    <button onClick={() => { this._mediaPlayer?.pause() }}>Pause</button>
+                    <button className="playback-action pause" onClick={() => { this._mediaPlayer?.pause() }}></button>
                     <button onClick={() => { this.props.onPlaybackEvent(PlaybackControllerEvent.Next); }}>Next</button>
                 </div>
                 <div>

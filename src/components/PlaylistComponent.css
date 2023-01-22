@@ -1,9 +1,12 @@
 ul{
-    padding: 0;
+    padding: 0px;
     list-style-type: none;
+    margin: 0px;
 }
-li{
-    margin: 5px;
-    background-color: darkblue;
-    padding: 0;
+
+button.add-item{
+    width: 148px;
+    background-color: #119922;
+    color: white;
+    font-size: 1rem;   
 }

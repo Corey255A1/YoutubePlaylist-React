@@ -1,0 +1,19 @@
+.playback-action{
+    width: 28px;
+    
+}
+
+.playback-action.play::after{
+    
+}
+
+.playback-action.pause{
+    background-color: #119922;
+    color: white;
+    font-weight: bold;
+}
+
+.playback-action.pause::after{
+    content: "| |";
+    
+}

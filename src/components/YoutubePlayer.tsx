@@ -35,6 +35,8 @@ export interface MediaPlayerInfo {
 
 export interface YoutubePlayerProps {
     url: string | undefined;
+    width:number;
+    height:number;
     setMediaPlayer: (controller: MediaPlayer) => void;
     onMediaPlayerStateChange: (info: MediaPlayerInfo) => void;
 }
@@ -53,8 +55,8 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
 
     constructor(props: YoutubePlayerProps) {
         super(props);
-        this._width = 320;
-        this._height = 320;
+        this._width = props.width;
+        this._height = props.height;
         this._id = "youtube-iframe-" + Math.floor(Math.random() * 1000000);
         this._player = null;
         this._playerController = null;
