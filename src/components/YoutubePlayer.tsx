@@ -96,13 +96,9 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
     }
 
     private onPlayerReady(event: any) {
-        console.log("READY!");
-        console.log(event);
         this._playerController = event.target;
     }
     private onPlayerStateChange(event: any) {
-        console.log("STATE");
-        console.log(event);
         this._videoTitle = event.target.videoTitle;
         this._playState = event.data;
         this.props.onMediaPlayerStateChange(this);

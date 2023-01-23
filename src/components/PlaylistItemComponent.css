@@ -68,5 +68,5 @@ button.item-action.play:hover{
 }
 
 button.item-action.play:after{
-    content: "▶";
+    content: "⯈";
 }

@@ -18,6 +18,7 @@ export interface PlaybackComponentProps {
 }
 export interface PlaybackComponentState {
     videoTitle: string;
+    autoPlay: boolean;
 }
 export class PlaybackComponent extends React.Component<PlaybackComponentProps, PlaybackComponentState>{
     private _mediaPlayer: MediaPlayer | null;
@@ -26,13 +27,21 @@ export class PlaybackComponent extends React.Component<PlaybackComponentProps, P
 
         this._mediaPlayer = null;
         this.state = {
-            videoTitle: "Nothing Playing"
+            videoTitle: "Nothing Playing",
+            autoPlay: true
         };
 
     }
 
     setMediaPlayer(mediaPlayer: MediaPlayer) {
         this._mediaPlayer = mediaPlayer;
+    }
+
+    set autoPlay(value:boolean){
+        this.setState({autoPlay:value});
+    }
+    get autoPlay(){
+        return this.state.autoPlay;
     }
 
     mediaPlayerStateChangeHandler(info: MediaPlayerInfo) {
@@ -45,6 +54,11 @@ export class PlaybackComponent extends React.Component<PlaybackComponentProps, P
             } break;
             case YT.PlayerState.Paused: {
                 this.props.onPlaybackEvent(PlaybackControllerEvent.Paused);
+            } break;
+            case YT.PlayerState.Ended: {
+                if(this.autoPlay){
+                    this.props.onPlaybackEvent(PlaybackControllerEvent.Next);
+                }
             } break;
         }
     }
@@ -69,7 +83,7 @@ export class PlaybackComponent extends React.Component<PlaybackComponentProps, P
                     <button className="playback-action next" onClick={() => { this.props.onPlaybackEvent(PlaybackControllerEvent.Next); }}></button>
                 </div>
                 <div>
-                    <input type="checkbox"></input>
+                    <input type="checkbox" checked={this.state.autoPlay} onChange={(e)=>{this.autoPlay = e.target.checked;}}></input>
                     <label>Autoplay</label>
                 </div>
             </div>)

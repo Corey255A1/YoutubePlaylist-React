@@ -5,8 +5,12 @@
     font-weight: bold;
 }
 
+.playback-action:hover{
+    background-color: #11FF22;
+}
+
 .playback-action.play:after{
-    content: "▶";
+    content: "⯈";
 }
 
 .playback-action.pause::after{
