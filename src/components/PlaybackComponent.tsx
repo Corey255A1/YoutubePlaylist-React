@@ -52,7 +52,7 @@ export class PlaybackComponent extends React.Component<PlaybackComponentProps, P
     render(): React.ReactNode {
         return (
             <div>
-                <div>{this.state.videoTitle}</div>
+                <h2>{this.state.videoTitle}</h2>
                 <div>
                     <YoutubePlayer
                         width={320}
@@ -63,10 +63,10 @@ export class PlaybackComponent extends React.Component<PlaybackComponentProps, P
                     ></YoutubePlayer>
                 </div>
                 <div>
-                    <button onClick={() => { this.props.onPlaybackEvent(PlaybackControllerEvent.Previous); }}>Previous</button>
-                    <button onClick={() => { this._mediaPlayer?.play(); }}>Play</button>
+                    <button className="playback-action previous" onClick={() => { this.props.onPlaybackEvent(PlaybackControllerEvent.Previous); }}></button>
+                    <button className="playback-action play" onClick={() => { this._mediaPlayer?.play(); }}></button>
                     <button className="playback-action pause" onClick={() => { this._mediaPlayer?.pause() }}></button>
-                    <button onClick={() => { this.props.onPlaybackEvent(PlaybackControllerEvent.Next); }}>Next</button>
+                    <button className="playback-action next" onClick={() => { this.props.onPlaybackEvent(PlaybackControllerEvent.Next); }}></button>
                 </div>
                 <div>
                     <input type="checkbox"></input>

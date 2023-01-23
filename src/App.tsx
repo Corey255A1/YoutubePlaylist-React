@@ -37,7 +37,7 @@ export class App extends React.Component<any, AppState>{
   }
 
   addItemHandler(addToBottom: boolean) {
-    const item = new PlaylistItem(this._nextPlaylistItemID++, this._nextPlaylistItemID.toString());
+    const item = new PlaylistItem(this._nextPlaylistItemID++, "");
     if (addToBottom) {
       this.setState({ playlist: [...this.state.playlist, item] })
     } else {
@@ -118,25 +118,27 @@ export class App extends React.Component<any, AppState>{
   render(): React.ReactNode {
     console.log("APP")
     return (
-      <div className="App">
-        <div style={{ width: "50%" }}>
-          <PlaybackComponent
-            url={this.state.currentPlaybackItem?.url}
-            onPlaybackEvent={this.playbackEventHandler.bind(this)}
-          ></PlaybackComponent>
+      <div>
+        <h1>WunderVision Youtube Player - React</h1>
+        <div className="App">
+          <div className="section">
+            <PlaybackComponent
+              url={this.state.currentPlaybackItem?.url}
+              onPlaybackEvent={this.playbackEventHandler.bind(this)}
+            ></PlaybackComponent>
+          </div>
+          <div className="section">
+            <PlaylistComponent
+              activeItem={this.state.currentPlaybackItem}
+              playlist={this.state.playlist}
+              onAddItem={this.addItemHandler.bind(this)}
+              onMoveItem={this.moveItemHandler.bind(this)}
+              onPlayItem={this.playItemHandler.bind(this)}
+              onRemoveItem={this.removeItemHandler.bind(this)}
+              onItemURLChanged={this.itemURLChangedHandler.bind(this)}
+            ></PlaylistComponent>
+          </div>
         </div>
-        <div style={{ width: "50%" }}>
-          <PlaylistComponent
-            activeItem={this.state.currentPlaybackItem}
-            playlist={this.state.playlist}
-            onAddItem={this.addItemHandler.bind(this)}
-            onMoveItem={this.moveItemHandler.bind(this)}
-            onPlayItem={this.playItemHandler.bind(this)}
-            onRemoveItem={this.removeItemHandler.bind(this)}
-            onItemURLChanged={this.itemURLChangedHandler.bind(this)}
-          ></PlaylistComponent>
-        </div>
-
       </div>
     );
   }

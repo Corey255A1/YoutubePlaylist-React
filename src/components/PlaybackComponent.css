@@ -1,19 +1,24 @@
 .playback-action{
     width: 28px;
-    
-}
-
-.playback-action.play::after{
-    
-}
-
-.playback-action.pause{
     background-color: #119922;
     color: white;
     font-weight: bold;
 }
 
+.playback-action.play:after{
+    content: "▶";
+}
+
 .playback-action.pause::after{
     content: "| |";
-    
+}
+
+.playback-action.next:after{
+    font-size: .5rem;
+    content: "▶▶";
+}
+
+.playback-action.previous:after{
+    font-size: .5rem;
+    content: "◀◀";
 }
