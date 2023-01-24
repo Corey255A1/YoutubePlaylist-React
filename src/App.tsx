@@ -119,7 +119,7 @@ export class App extends React.Component<any, AppState>{
     console.log("APP")
     return (
       <div>
-        <h1>WunderVision Youtube Player - React</h1>
+        <h1>WunderVision Youtube Playlist - React</h1>
         <div className="App">
           <div className="section">
             <PlaybackComponent
