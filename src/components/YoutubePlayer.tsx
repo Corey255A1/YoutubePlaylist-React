@@ -147,7 +147,7 @@ export class YoutubePlayer extends React.Component<YoutubePlayerProps> implement
             <iframe
                 width={this._width}
                 height={this._height}
-                src="http://www.youtube.com/embed?enablejsapi=1&mute=1"
+                src="https://www.youtube.com/embed?enablejsapi=1&mute=1"
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
